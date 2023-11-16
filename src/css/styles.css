@@ -1,25 +1,84 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
-@import url('./reset.css');
-@import url('./vite-promo.css');
-@import url('./header.css');
+@import './slimselect.css';
+@import './loader.css';
 
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+.container {
+  width: 320px;
+  margin: 0 auto;
+  font-size: 18px;
+}
 
-  color: #242424;
-  background-color: rgba(255, 255, 255, 0.87);
+@media screen and (min-width: 728px) {
+  .container {
+    width: 720px;
+  }
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+@media screen and (min-width: 1024px) {
+  .container {
+    width: 1024px;
+  }
+}
+
+.cat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: beige;
+  box-shadow: 20px 20px 60px 20px gainsboro;
+}
+
+@media screen and (min-width: 1024px) {
+  .cat-info {
+    flex-direction: row;
+  }
+}
+
+.image {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 1024px) {
+  .image {
+    width: calc(100% / 2 - 20px);
+  }
+}
+
+.trait-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.trait-name {
+  display: inline-block;
+  width: 150px;
+}
+
+.temperament-acent {
+  font-weight: bold;
+}
+
+.cat-info {
+  margin-top: 30px;
+}
+
+.breed-select {
+  margin-top: 30px;
+}
+
+.breed {
+  margin-top: 0;
+}
+
+.hiden-elem {
+  display: none;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  margin: 200px auto;
 }
