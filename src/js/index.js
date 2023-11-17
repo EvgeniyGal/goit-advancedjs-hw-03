@@ -17,7 +17,7 @@ catAPI
     all_breeds = data;
     elements.select.innerHTML = data
       .map(({ id, name }) => `<option value="${id}">${name}</option>`)
-      .join(``);
+      .join('');
     new SlimSelect({ select: elements.select });
     elements.select.classList.toggle('hiden-elem', false);
     elements.loader.classList.toggle('hiden-elem', true);
@@ -29,26 +29,28 @@ elements.select.addEventListener('change', handlerSelectBreed);
 function handlerSelectBreed(ev) {
   elements.catComtainer.classList.toggle('hiden-elem', true);
   elements.loader.classList.toggle('hiden-elem', false);
+
   catAPI
     .fetchCatByBreed(ev.target.value)
-    .then(data => {
+    .then(([{ url: imageURL }]) => {
       elements.catComtainer.innerHTML = createSelectedCatMarkup(
-        data[0].url,
-        all_breeds.filter(({ id }) => id === ev.target.value)[0]
+        imageURL,
+        all_breeds.find(({ id }) => id === ev.target.value)
       );
 
-      const image = document.querySelector('.image');
-      image.addEventListener('load', handlerLoadImage);
-
-      function handlerLoadImage() {
-        elements.catComtainer.classList.toggle('hiden-elem', false);
-        elements.loader.classList.toggle('hiden-elem', true);
-      }
+      document
+        .querySelector('.image')
+        .addEventListener('load', handlerLoadImage);
     })
     .catch(() => {
       showErrorMassage();
       elements.loader.classList.toggle('hiden-elem', true);
     });
+}
+
+function handlerLoadImage() {
+  elements.catComtainer.classList.toggle('hiden-elem', false);
+  elements.loader.classList.toggle('hiden-elem', true);
 }
 
 function createSelectedCatMarkup(
@@ -72,23 +74,23 @@ function createSelectedCatMarkup(
         <p class="description">${description}</p>
         <p class="temperament"><span class="temperament-acent">Temperament: </span>${temperament}</p>
         <ul class="trait-list">
-          <li class="trait-list-item"><span class="trait-name">Adaptabylity:</span>${generateStars(
+          <li class="trait-list-item"><span class="trait-name">Adaptabylity:</span>${generateStrOfStars(
             adaptability
           )}</li>
-           <li class="trait-list-item"><span class="trait-name">Affectionate:</span>${generateStars(
+           <li class="trait-list-item"><span class="trait-name">Affectionate:</span>${generateStrOfStars(
              affection_level
            )}</li>
-          <li class="trait-list-item"><span class="trait-name">Child friendly:</span>${generateStars(
+          <li class="trait-list-item"><span class="trait-name">Child friendly:</span>${generateStrOfStars(
             child_friendly
           )}</li>          
-          <li class="trait-list-item"><span class="trait-name">Dog friendly:</span>${generateStars(
+          <li class="trait-list-item"><span class="trait-name">Dog friendly:</span>${generateStrOfStars(
             dog_friendly
           )}</li>
-          <li class="trait-list-item"><span class="trait-name">Energy level:</span>${generateStars(
+          <li class="trait-list-item"><span class="trait-name">Energy level:</span>${generateStrOfStars(
             energy_level
           )}</li>
         
-          <li class="trait-list-item"><span class="trait-name">Inteligence:</span>${generateStars(
+          <li class="trait-list-item"><span class="trait-name">Inteligence:</span>${generateStrOfStars(
             intelligence
           )}</li>
 
@@ -97,14 +99,14 @@ function createSelectedCatMarkup(
     `;
 }
 
-function generateStars(num) {
+function generateStrOfStars(num) {
   return Array.from({ length: +num }, x => '⭐').join(' ');
 }
 
 function showErrorMassage() {
   iziToast.error({
     title: 'Oops!',
-    position: 'center',
     message: 'Something went wrong! Try reloading the page!',
+    position: 'center',
   });
 }
